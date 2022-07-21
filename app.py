@@ -21,11 +21,11 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World", "status_code": 200}
 
 @app.get("/health")
 async def health():
-    return {"message": "OK", "status": "200"}
+    return {"message": "OK", "status_code": 200}
 
 @app.get("/data")
 async def get_data():
