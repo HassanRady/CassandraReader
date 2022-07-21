@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
+import json
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -26,11 +27,14 @@ async def root():
 
 @app.get("/data")
 async def get_data():
-    data = cd.get_all_data(TABLE)
-    print(data)
-    return "Hello World"
-    # return data
+    raw_data = cd.get_all_data(TABLE)
+    data = {'text': [], 'author_id': [], 'topic': []}
+    for row in raw_data:
+        data['author_id'].append(row.author_id)
+        data['text'].append(row.text)
+        data['topic'].append(row.topic)
 
+    return json.dumps(data)
 
 
 
