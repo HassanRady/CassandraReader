@@ -12,10 +12,13 @@ class CassandraDriver:
         self.session.execute(f"create KEYSPACE IF NOT EXISTS {KEYSPACE} WITH REPLICATION = {keyspace_strategy}")
         self.session.set_keyspace(KEYSPACE)
 
-        TABLE = 'offline_tweets'
-        self.session.execute(f"create TABLE IF NOT EXISTS {TABLE} (id text, text text, author_id text, topic text, PRIMARY KEY (id))")
+        OFFLINE_TABLE = os.environ['OFFLINE_TABLE']
+        ONLINE_TABLE = os.environ['ONLINE_TABLE']
 
-        prepared = self.session.prepare(f"INSERT INTO {TABLE} (id, author_id, text, topic) VALUES (?, ?, ?, ?)")
+        self.session.execute(f"create TABLE IF NOT EXISTS {OFFLINE_TABLE} (id text, text text, author_id text, topic text, PRIMARY KEY (id))")
+        self.session.execute(f"create TABLE IF NOT EXISTS {ONLINE_TABLE} (id text, text text, author_id text, topic text, PRIMARY KEY (id))")
+
+        prepared = self.session.prepare(f"INSERT INTO {OFFLINE_TABLE} (id, author_id, text, topic) VALUES (?, ?, ?, ?)")
         with open('data/offline_tweets.csv', 'r') as f:
             for line in f:
                 id, text, author_id, topic = line.split(',')
