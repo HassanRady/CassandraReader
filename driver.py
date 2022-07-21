@@ -6,7 +6,7 @@ class CassandraDriver:
     def __init__(self, HOST, PORT, KEYSPACE) -> None:
         auth_provider = PlainTextAuthProvider(
         username='cassandra', password='cassandra')
-        self.cluster = Cluster([HOST], port=PORT, auth_provider=auth_provider)
+        self.cluster = Cluster([HOST], port=int(PORT), auth_provider=auth_provider)
         self.session = self.cluster.connect()
         keyspace_strategy = {'class': 'SimpleStrategy', 'replication_factor': 1}
         self.session.execute(f"create KEYSPACE IF NOT EXISTS {KEYSPACE} WITH REPLICATION = {keyspace_strategy}")

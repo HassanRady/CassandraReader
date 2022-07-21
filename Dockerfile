@@ -4,17 +4,17 @@ FROM python:slim
 # set work directory
 WORKDIR /cassandra-reader
 
-# ENV CASSANDRA_HOST=localhost
-ENV CASSANDRA_PORT=9042
-ENV KEYSPACE=twitter
-ENV TABLE=offline_tweets
+# ENV CASSANDRA_HOST=cassandra
+# ENV CASSANDRA_PORT=9042
+# ENV KEYSPACE=twitter
+# ENV TABLE=offline_tweets
 
 # install dependencies
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-EXPOSE 9015
+# EXPOSE 9015
 
 COPY . /cassandra-reader
 
