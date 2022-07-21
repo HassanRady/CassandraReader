@@ -13,8 +13,7 @@ from driver import CassandraDriver
 HOST = os.environ.get('CASSANDRA_HOST', 'localhost')
 PORT = os.environ.get('CASSANDRA_PORT', 9042)
 KEYSPACE = os.environ['KEYSPACE']
-TABLE = os.environ['TABLE']
-
+OFFLINE_TABLE = os.environ['OFFLINE_TABLE']
 
 cd = CassandraDriver(HOST, PORT, KEYSPACE)
 app = FastAPI()
@@ -24,10 +23,13 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
+@app.get("/health")
+async def health():
+    return {"message": "OK", "status": "200"}
 
 @app.get("/data")
 async def get_data():
-    raw_data = cd.get_all_data(TABLE)
+    raw_data = cd.get_all_data(OFFLINE_TABLE)
     data = {'text': [], 'author_id': [], 'topic': []}
     for row in raw_data:
         data['author_id'].append(row.author_id)
