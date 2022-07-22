@@ -1,6 +1,6 @@
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
-
+import os
 
 class CassandraDriver:
     def __init__(self, HOST, PORT, KEYSPACE) -> None:
