@@ -16,7 +16,7 @@ class CassandraDriver:
         ONLINE_TABLE = os.environ['ONLINE_TABLE']
 
         self.session.execute(f"create TABLE IF NOT EXISTS {OFFLINE_TABLE} (id text, text text, author_id text, topic text, PRIMARY KEY (id))")
-        self.session.execute(f"create TABLE IF NOT EXISTS {ONLINE_TABLE} (id text, text text, author_id text, topic text, PRIMARY KEY (id))")
+        self.session.execute(f"create TABLE IF NOT EXISTS {ONLINE_TABLE} (id text, text text, author_id text, PRIMARY KEY (id))")
 
         prepared = self.session.prepare(f"INSERT INTO {OFFLINE_TABLE} (id, author_id, text, topic) VALUES (?, ?, ?, ?)")
         with open('data/offline_tweets.csv', 'r') as f:
